@@ -1,7 +1,16 @@
 const express = require("express");
 const path = require("path");
-const app = express();
 const PORT = process.env.PORT || 3000;
+const RateLimit = require("express-rate-limit");
+
+const app = express();
+
+const limiter = new RateLimit({
+  windowMs: 1 * 60 * 1000,
+  max: 50,
+});
+
+app.use(limiter);
 
 app.use(express.static(path.join(__dirname, "dist")));
 
