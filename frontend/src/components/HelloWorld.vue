@@ -5,6 +5,10 @@
         <h1 class="text-h2 font-weight-bold">🐙.☕️</h1>
         <h2 class="text-h5 font-weight-light">Password Checker</h2>
         <br />
+        <v-btn icon :href="'https://github.com/nilgaar/PassCheck'" target="_blank">
+          <v-icon>mdi-github</v-icon>
+        </v-btn>
+        <br />
       </div>
 
       <div class="py-4"></div>
