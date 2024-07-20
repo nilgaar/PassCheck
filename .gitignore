@@ -20,3 +20,9 @@
 # Go workspace file
 go.work
 go.work.sum
+backend/sources/SecLists
+backend/tables/*.txt
+backend/tables/*.csv
+backend/tables/*.txt
+backend/tables/*.csv
+backend/web-service-gin

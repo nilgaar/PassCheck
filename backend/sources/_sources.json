@@ -1,0 +1,6 @@
+[
+  {
+    "repo": "https://github.com/danielmiessler/SecLists.git",
+    "path": "./SecLists/Passwords/Common-Credentials/"
+  }
+]

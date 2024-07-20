@@ -1,0 +1,28 @@
+name: Build Backend
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Upload and run Backend
+        run: |
+          sshpass -p $PASSWORD ssh -o StrictHostKeyChecking=no $USERNAME@$SERVER_IP "sudo rm -rf /home/$USERNAME/*"
+          sshpass -p $PASSWORD sftp -o StrictHostKeyChecking=no $USERNAME@$SERVER_IP <<EOF
+          put -r ./backend
+          bye
+          EOF
+          sshpass -p $PASSWORD ssh -o StrictHostKeyChecking=no $USERNAME@$SERVER_IP "bash ~/backend/get_repos.sh"
+          sshpass -p $PASSWORD ssh -o StrictHostKeyChecking=no $USERNAME@$SERVER_IP "cd ~/backend && bash run_backend.sh"
+        env:
+          SERVER_IP: ${{ secrets.SERVER_IP }}
+          USERNAME: ${{ secrets.USERNAME }}
+          PASSWORD: ${{ secrets.PASSWORD }}
