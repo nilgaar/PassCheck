@@ -1,14 +1,19 @@
 const express = require("express");
 const path = require("path");
-const app = express();
 const PORT = process.env.PORT || 3000;
+let RateLimit = require("express-rate-limit");
 
-app.use(express.static(path.join(__dirname, "dist")));
+const limiter = new RateLimit({
+  windowMs: 1 * 60 * 1000,
+  max: 50,
+});
 
-app.get("*", (req, res) => {
+express().use(express.static(path.join(__dirname, "dist")), limiter);
+
+express().get("*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "dist", "index.html"));
 });
 
-app.listen(PORT, () => {
+express().listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
