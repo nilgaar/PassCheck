@@ -13,9 +13,12 @@ jobs:
 
       - name: Upload and run Frontend
         run: |
-          sshpass -p $PASSWORD ssh -o StrictHostKeyChecking=no $USERNAME@$SERVER_IP ""
           sshpass -p $PASSWORD sftp -o StrictHostKeyChecking=no $USERNAME@$SERVER_IP <<EOF
           put -r ./frontend
           bye
           EOF
           sshpass -p $PASSWORD ssh -o StrictHostKeyChecking=no $USERNAME@$SERVER_IP "cd ~/frontend && sh run_frontend.sh"
+        env:
+          SERVER_IP: ${{ secrets.SERVER_IP }}
+          USERNAME: ${{ secrets.USERNAME }}
+          PASSWORD: ${{ secrets.PASSWORD }}
