@@ -11,6 +11,16 @@
       <v-row>
         <v-col cols="12">
           <v-card class="py-4" color="surface-variant" rounded="lg" variant="outlined">
+            <v-col cols="12">
+              <v-card class="py-2" color="surface-light" rounded="lg" variant="outlined">
+                <div class="px-4">
+                  <p class="text-caption">This tool is designed to enhance your security by checking if your password
+                    has been exposed in any known breaches. By analyzing hashed versions of passwords against common
+                    dictionaries and wordlists, it helps determine if your password is still secure.</p>
+                </div>
+              </v-card>
+            </v-col>
+
             <v-form @submit.prevent="hashPassword">
               <h2 class="text-h5 font-weight-bold px-4">Enter a password</h2>
               <v-text-field v-model="password" label="Password" outlined type="password" class="px-4" required />
@@ -62,29 +72,79 @@ async function hashPassword() {
     });
 }
 </script>
-
-
 <style scoped>
+/* Base text styling for white appearance */
+.text-caption,
+.text-h5,
+p,
+h1,
+h2 {
+  color: #FFFFFF;
+  /* White text color */
+  font-weight: 300;
+  /* Lighter font weight for readability */
+}
+
 /* Responsive text styling */
 .text-caption {
   padding: 0 20px;
-  /* Adds horizontal padding for better text alignment */
-  font-size: 1rem;
-  /* Default font size */
+  font-size: 1.2rem;
+  /* Increased default font size */
 }
 
-/* Media queries for responsiveness */
 @media (min-width: 600px) {
   .text-caption {
-    font-size: 1.1rem;
+    font-size: 1.3rem;
     /* Slightly larger font size for tablets and small desktops */
   }
 }
 
 @media (min-width: 960px) {
   .text-caption {
-    font-size: 1.25rem;
+    font-size: 1.5rem;
     /* Larger font size for larger screens */
+  }
+}
+
+/* Adjustments for other text elements for consistency */
+.text-h5,
+h1,
+h2 {
+  font-size: 1.2rem;
+  /* Adjust base sizes for headings */
+}
+
+@media (min-width: 600px) {
+  .text-h5 {
+    font-size: 1.4rem;
+    /* Increase for medium screens */
+  }
+
+  h1 {
+    font-size: 2.5rem;
+    /* Larger for main title */
+  }
+
+  h2 {
+    font-size: 2rem;
+    /* Larger for secondary titles */
+  }
+}
+
+@media (min-width: 960px) {
+  .text-h5 {
+    font-size: 1.6rem;
+    /* Even larger for desktops */
+  }
+
+  h1 {
+    font-size: 3rem;
+    /* More prominent main title */
+  }
+
+  h2 {
+    font-size: 2.5rem;
+    /* More prominent secondary titles */
   }
 }
 </style>
