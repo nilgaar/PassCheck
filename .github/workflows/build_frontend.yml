@@ -17,7 +17,7 @@ jobs:
           put -r ./frontend
           bye
           EOF
-          sshpass -p $PASSWORD ssh -o StrictHostKeyChecking=no $USERNAME@$SERVER_IP "cd ./Passcheck/frontend && sh run_frontend.sh"
+          sshpass -p $PASSWORD ssh -o StrictHostKeyChecking=no $USERNAME@$SERVER_IP "ls && cd ./Passcheck/frontend && sh run_frontend.sh"
         env:
           SERVER_IP: ${{ secrets.SERVER_IP }}
           USERNAME: ${{ secrets.USERNAME }}
