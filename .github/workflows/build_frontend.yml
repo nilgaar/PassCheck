@@ -3,6 +3,8 @@ name: Build frontend
 on:
   push:
     branches: ["main", "build_frontend"]
+  pull_request:
+    branches: ["build_frontend"]
 
 jobs:
   build:
