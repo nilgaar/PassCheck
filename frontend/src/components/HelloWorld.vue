@@ -58,7 +58,6 @@ const files = ref([]);
 
 async function hashPassword() {
   const hashedPassword = sha3_512(password.value);
-  console.log(hashedPassword);
   fetch("https://api.checker.pops.cafe?hash=" + hashedPassword)
     .then((response) => response.json())
     .then((data) => {
