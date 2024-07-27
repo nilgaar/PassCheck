@@ -31,20 +31,23 @@
       </v-col>
 
       <v-col cols="12" sm="10" md="8" lg="6">
-        <v-list dense>
-          <v-subheader>Dictionaries containing the Password:</v-subheader>
-          <v-list-item-group v-for="file in files" :key="file">
-            <v-list-item>
-              <v-list-item-content>
-                <v-list-item-title>{{ file }}</v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-          </v-list-item-group>
-        </v-list>
+        <v-card class="pa-4" color="darkgrey" elevation="2" rounded="lg" outlined>
+          <v-list dense>
+            <v-subheader>Dictionaries containing the Password:</v-subheader>
+            <v-list-item-group v-for="file in files" :key="file">
+              <v-list-item>
+                <v-list-item-content>
+                  <v-list-item-title>{{ file }}</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+            </v-list-item-group>
+          </v-list>
+        </v-card>
       </v-col>
     </v-row>
   </v-container>
 </template>
+
 
 <script setup lang="ts">
 import { ref } from "vue";
