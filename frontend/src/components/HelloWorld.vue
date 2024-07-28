@@ -26,7 +26,9 @@
             <v-btn color="primary" class="mt-3" type="submit">Check Password</v-btn>
           </v-form>
 
-          <v-overlay opacity=".12" scrim="primary" :value="true"></v-overlay>
+          <v-overlay :value="loading">
+            <v-progress-circular indeterminate color="primary"></v-progress-circular>
+          </v-overlay>
         </v-card>
       </v-col>
 
@@ -48,29 +50,31 @@
   </v-container>
 </template>
 
-
 <script setup lang="ts">
 import { ref } from "vue";
 import { sha3_512 } from "js-sha3";
 
 const password = ref("");
 const files = ref([]);
+const loading = ref(false);
 
 async function hashPassword() {
+  loading.value = true;
   const hashedPassword = sha3_512(password.value);
   fetch("https://api.checker.pops.cafe?hash=" + hashedPassword)
     .then((response) => response.json())
     .then((data) => {
       files.value = data.data.split(', ').sort().map((file: string) => file.trim());
+      loading.value = false;
     })
     .catch((error) => {
       console.error("Error:", error);
+      loading.value = false;
     });
 }
 </script>
 
 <style scoped>
-/* Base text styling for white appearance */
 .text-caption,
 .headline,
 p,
@@ -84,7 +88,7 @@ h2,
   margin-top: 12px;
 }
 
-/* Responsive settings for better readability */
+
 @media (max-width: 600px) {
 
   .headline,
