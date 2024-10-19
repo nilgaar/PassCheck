@@ -63,35 +63,13 @@ func searchHash(hash string) []string {
 		return nil
 	}
 
-	var wg sync.WaitGroup
 	resultsChan := make(chan string, len(files))
-	results := []string{}
+	var wg sync.WaitGroup
 
 	for _, file := range files {
 		if !file.IsDir() {
 			wg.Add(1)
-			go func(file os.DirEntry) {
-				defer wg.Done()
-				filePath := filepath.Join(tablesPath, file.Name())
-				f, err := os.Open(filePath)
-				if err != nil {
-					fmt.Printf("Error opening file %s: %v\n", file.Name(), err)
-					return
-				}
-				defer f.Close()
-
-				scanner := bufio.NewScanner(f)
-				for scanner.Scan() {
-					line := scanner.Text()
-					if strings.Contains(line, hash) {
-						resultsChan <- file.Name()
-						break
-					}
-				}
-				if err := scanner.Err(); err != nil {
-					fmt.Printf("Error reading file %s: %v\n", file.Name(), err)
-				}
-			}(file)
+			go searchFileForHash(file, hash, resultsChan, &wg)
 		}
 	}
 
@@ -100,9 +78,36 @@ func searchHash(hash string) []string {
 		close(resultsChan)
 	}()
 
+	return collectResults(resultsChan)
+}
+
+func searchFileForHash(file os.DirEntry, hash string, resultsChan chan<- string, wg *sync.WaitGroup) {
+	defer wg.Done()
+	filePath := filepath.Join("./tables", file.Name())
+	f, err := os.Open(filePath)
+	if err != nil {
+		fmt.Printf("Error opening file %s: %v\n", file.Name(), err)
+		return
+	}
+	defer f.Close()
+
+	scanner := bufio.NewScanner(f)
+	for scanner.Scan() {
+		line := scanner.Text()
+		if strings.Contains(line, hash) {
+			resultsChan <- file.Name()
+			break
+		}
+	}
+	if err := scanner.Err(); err != nil {
+		fmt.Printf("Error reading file %s: %v\n", file.Name(), err)
+	}
+}
+
+func collectResults(resultsChan <-chan string) []string {
+	results := []string{}
 	for fileName := range resultsChan {
 		results = append(results, fileName)
 	}
-
 	return results
 }
